@@ -8,7 +8,7 @@ namespace Console.Net
         public static BufItem Empty = new BufItem();
         private bool _blink;
 
-        public char Char { get; set; } = '\0';
+        public char Char { get; set; } = ' ';
         public ConsoleColor Foreground { get; set; } = ConsoleColor.Black;
         public ConsoleColor Background { get; set; } = ConsoleColor.White;
         public bool IsBlinked { get; set; }

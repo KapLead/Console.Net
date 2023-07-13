@@ -49,7 +49,7 @@ namespace Console.Net
 
         private static Size GetScreenSize() => new Size(GetSystemMetrics(0), GetSystemMetrics(1));
 
-        private static IntPtr GetMainHandle
+        public static IntPtr GetMainHandle
         {
             get
             {
@@ -74,6 +74,7 @@ namespace Console.Net
             SetWindowPos(window, IntPtr.Zero, x, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
         }
 
+        /// <summary> Скрыть кнопку развернуть на весь экран </summary>
         public static void HideMaximized()
         {
             var window = GetMainHandle;
@@ -82,6 +83,7 @@ namespace Console.Net
             SetWindowLong(window, GWL_STYLE, (int)(value &~WS_MAXIMIZEBOX));
         }
 
+        /// <summary> Запретить изменение размеров окна </summary>
         public static void SetNoResizeWindow()
         {
             var window = GetMainHandle;

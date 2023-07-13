@@ -1,5 +1,8 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.IO;
+using System.Runtime.InteropServices;
+using Microsoft.Win32;
 
 namespace Console.Net
 {
@@ -45,20 +48,52 @@ namespace Console.Net
                     items[j,i] = BufItem.Empty;
         }
 
-        /// <summary> Отобразить текущий буфер </summary>
+        [DllImport("kernel32.dll", SetLastError = true)] public static extern bool SetConsoleTextAttribute(IntPtr hConsoleOutput, CharacterAttributes wAttributes);
+        [DllImport("kernel32.dll")] public static extern IntPtr GetStdHandle(int nStdHandle);
+
+        public enum CharacterAttributes
+        {
+            FOREGROUND_BLUE = 0x0001,
+            FOREGROUND_GREEN = 0x0002,
+            FOREGROUND_RED = 0x0004,
+            FOREGROUND_INTENSITY = 0x0008,
+            BACKGROUND_BLUE = 0x0010,
+            BACKGROUND_GREEN = 0x0020,
+            BACKGROUND_RED = 0x0040,
+            BACKGROUND_INTENSITY = 0x0080,
+            COMMON_LVB_LEADING_BYTE = 0x0100,
+            COMMON_LVB_TRAILING_BYTE = 0x0200,
+            COMMON_LVB_GRID_HORIZONTAL = 0x0400,
+            COMMON_LVB_GRID_LVERTICAL = 0x0800,
+            COMMON_LVB_GRID_RVERTICAL = 0x1000,
+            COMMON_LVB_REVERSE_VIDEO = 0x4000,
+            COMMON_LVB_UNDERSCORE = 0x8000
+        }
+
+        /// <summary>
+        /// Отобразить текущий буфер
+        /// </summary>
         public void Show()
         {
-            for (int x = 0; x < Width; x++)
+            var visible=System.Console.CursorVisible;
+            System.Console.CursorVisible=false;
+            IntPtr hOut = GetStdHandle(-11); 
+
+            for (int y = 0; y < Height; y++)
             {
-                for (int y = 0; y < Height; y++)
+                System.Console.SetCursorPosition(Left,Top + y);
+                string line = null;
+                for (int x = 0; x < Width; x++)
                 {
-                    System.Console.CursorLeft = Left + x;
-                    System.Console.CursorTop = Top + y;
+                    SetConsoleTextAttribute(hOut, )
                     System.Console.ForegroundColor = items[x,y].IsBlinked? items[x,y].Foreground:items[x,y].AlternateForeground;
                     System.Console.BackgroundColor = items[x,y].IsBlinked? items[x,y].Background:items[x,y].AlternateBackground;
-                    System.Console.Write(items[x,y].Char);
+                
+                    line += items[x, y].Char;
                 }
+                System.Console.Write(line);
             }
+            System.Console.CursorVisible = visible;
         }
 
         /// <summary> Получить указанный прямоугольник </summary>
@@ -74,7 +109,9 @@ namespace Console.Net
             return b;
         }
 
-        /// <summary> Корректировка прямоугольника на возможность выхода за размеры буфера </summary>
+        /// <summary>
+        /// Корректировка прямоугольника на возможность выхода за размеры буфера
+        /// </summary>
         public Rectangle Correct(ref Rectangle rect)
         {
             int _x = rect.X, _y = rect.Y, _w = rect.Width, _h = rect.Height;
@@ -85,7 +122,9 @@ namespace Console.Net
             return rect = new Rectangle(_x, _y, _w, _h);
         }
 
-        /// <summary> Сохранение буфера в файл </summary>
+        /// <summary>
+        /// Сохранение буфера в файл
+        /// </summary>
         public void SaveTo(string fname)
         {
             using (var w = new BinaryWriter(new FileStream(fname, FileMode.Create)))
@@ -100,7 +139,9 @@ namespace Console.Net
             }
         }
 
-        /// <summary> Загрузка с файла в буфер </summary>
+        /// <summary>
+        /// Загрузка с файла в буфер
+        /// </summary>
         public void LoadFrom(string fname)
         {
             if(File.Exists(fname))
