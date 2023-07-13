@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buffer.cs" />
+    <Compile Include="BufItem.cs" />
     <Compile Include="ConsoleBuffer.cs" />
     <Compile Include="ConsoleContext.cs" />
     <Compile Include="ConsoleCore.cs" />
