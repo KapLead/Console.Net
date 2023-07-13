@@ -85,7 +85,7 @@ namespace Console.Net
                 string line = null;
                 for (int x = 0; x < Width; x++)
                 {
-                    SetConsoleTextAttribute(hOut, )
+                    //SetConsoleTextAttribute(hOut, )
                     System.Console.ForegroundColor = items[x,y].IsBlinked? items[x,y].Foreground:items[x,y].AlternateForeground;
                     System.Console.BackgroundColor = items[x,y].IsBlinked? items[x,y].Background:items[x,y].AlternateBackground;
                 
