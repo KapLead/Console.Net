@@ -5,7 +5,8 @@ using System.Text;
 
 namespace Console.Net
 {
-    public class Class1
+    public class ConsoleBuffer : ConsoleWindow
     {
+
     }
 }

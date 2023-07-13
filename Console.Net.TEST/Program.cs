@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 namespace Console.Net.TEST
 {
-    internal class Program
+    internal class Program : ConsoleContext
     {
         static void Main(string[] args)
         {
+            WindowSize(120, 32);
+            WindowCenter();
+            WaitPressAnyKey(new []{'y','Y'});
         }
     }
 }
