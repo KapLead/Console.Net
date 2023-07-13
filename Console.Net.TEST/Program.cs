@@ -5,6 +5,8 @@ namespace Console.Net.TEST
     {
         static void Main(string[] args)
         {
+            HideMaximized();
+            SetNoResizeWindow();
             WindowSize(120, 32);
             WindowCenter();
             WaitPressAnyKey(new []{'y','Y'});

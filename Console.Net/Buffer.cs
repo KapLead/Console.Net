@@ -85,6 +85,7 @@ namespace Console.Net
             return rect = new Rectangle(_x, _y, _w, _h);
         }
 
+        /// <summary> Сохранение буфера в файл </summary>
         public void SaveTo(string fname)
         {
             using (var w = new BinaryWriter(new FileStream(fname, FileMode.Create)))
@@ -99,6 +100,7 @@ namespace Console.Net
             }
         }
 
+        /// <summary> Загрузка с файла в буфер </summary>
         public void LoadFrom(string fname)
         {
             if(File.Exists(fname))

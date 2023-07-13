@@ -2,5 +2,6 @@
 {
     public class ConsoleContext : ConsoleBuffer
     {
+        public static Buffer Origin;
     }
 }
